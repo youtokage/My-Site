@@ -3,14 +3,20 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default defineConfig({
   plugins: [
     vue(),
+    nodePolyfills({
+      protocolImports: true, // node:fs 形式も許可
+      globals: { Buffer: true } // Buffer だけでも可
+    })
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      buffer: 'buffer',        // Rollup 用
     }
   },
   // GitHub Pagesに対応するための設定
