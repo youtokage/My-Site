@@ -20,7 +20,8 @@ export default defineConfig({
     }
   },
   // GitHub Pagesに対応するための設定
-  base: process.env.NODE_ENV === 'production' ? '/My-Site/' : '/',
+  // base: process.env.NODE_ENV === 'production' ? '/My-Site/' : '/',
+  base: '/',
   
   // [Fix] ReferenceError: Buffer is not defined
   optimizeDeps: {

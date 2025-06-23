@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import { posts } from '../utils/postLoader';
+import {formatPrettyDate} from '../utils/formatDate'
 
 const searchQuery = ref(''); // 検索クエリ
 const currentPage = ref(1);  // 現在のページ
@@ -37,9 +38,21 @@ const goToPage = (page) => {
     currentPage.value = page;
   }
 };
+
+// 日付フォーマット
+const formatDate = (date) => {
+  return new Intl.DateTimeFormat('ja-JP', {
+    year:   'numeric',
+    month:  '2-digit',
+    day:    '2-digit',
+    timeZone: 'Asia/Tokyo',  // 必要なら明示
+  }).format(date)
+}
+
 </script>
 
 <template>
+  
   <div class="blog-list">
     <h1>ブログ</h1>
     <hr>
@@ -59,7 +72,7 @@ const goToPage = (page) => {
             {{ post.title }}
           </RouterLink>
         </h2>
-        <span class="post-date">{{ post.date }}</span>
+        <span class="post-date">{{ formatPrettyDate(post.date) }}</span>
         <p>{{ post.excerpt }}</p>
         <ul class="meta-list" v-if="post.categories.length > 0 || post.tags.length > 0">
           <li v-if="post.categories.length > 0">

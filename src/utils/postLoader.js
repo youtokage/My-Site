@@ -10,7 +10,7 @@ const markdownFiles = import.meta.glob('../posts/*.md', { eager: true, as: 'raw'
  * @property {string} id - 記事の一意のID
  * @property {string} slug - 記事のURLフレンドリーなスラッグ
  * @property {string} title - 記事のタイトル
- * @property {string} date - 記事の公開日 (YYYY-MM-DD形式)
+ * @property {string} date - 記事の公開日 (YYYY-MM-DD HH:mm 形式)
  * @property {string} excerpt - 記事の抜粋
  * @property {string} content - 記事の全文 (Markdown形式)
  * @property {string[]} [categories] - 記事のカテゴリ配列 (オプション)
@@ -32,7 +32,7 @@ export const loadPosts = () => {
     const slug = data.slug || path.split('/').pop().replace(/\.md$/, '');
 
     posts.push({
-      id: data.id || slug, // idもスラッグから生成可能
+      id: data.id || slug,
       slug: slug,
       title: data.title || 'タイトルなし',
       date: data.date || '未定',

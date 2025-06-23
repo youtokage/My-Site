@@ -3,7 +3,8 @@ import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { posts } from '../utils/postLoader';
 import { marked } from 'marked';
-import { RouterLink } from 'vue-router'; // RouterLinkを追加
+import { RouterLink } from 'vue-router';
+import {formatPrettyDate} from '../utils/formatDate'
 
 const route = useRoute();
 const router = useRouter();
@@ -32,7 +33,7 @@ watch(() => route.params.slug, (newSlug) => {
 <template>
   <div class="blog-post" v-if="post">
     <h1>{{ post.title }}</h1>
-    <p class="post-meta">公開日: {{ post.date }}</p>
+    <p class="post-meta">公開日: {{ formatPrettyDate(post.date) }}</p>
     <ul class="meta-list" v-if="post.categories.length > 0 || post.tags.length > 0">
       <li v-if="post.categories.length > 0">
         <strong>カテゴリ:</strong>
