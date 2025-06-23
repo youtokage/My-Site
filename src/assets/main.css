@@ -1,0 +1,258 @@
+/* src/assets/main.css */
+
+@import './base.css';
+
+/* 全体的なフォントとボックスモデル */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ヘッダーとナビゲーション */
+header {
+  background: #333;
+  color: #fff;
+  padding: 1rem 0;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+header nav a {
+  color: #fff;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+header nav a:hover {
+  color: #42b983; /* Vueグリーン */
+}
+
+header nav a.router-link-active {
+  color: #42b983;
+  border-bottom: 2px solid #42b983;
+  padding-bottom: 5px;
+}
+
+/* コンテンツエリア */
+.container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+  color: #2c3e50; /* ダークグレー */
+  margin-top: 0;
+}
+
+/* リンクのスタイル */
+a {
+  color: #42b983;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ボタンのスタイル (もし使用する場合) */
+button {
+  background-color: #42b983;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #36a073;
+}
+
+/* ブログ記事リスト */
+.blog-list-item {
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
+}
+
+.blog-list-item:last-child {
+  border-bottom: none;
+}
+
+.blog-list-item h2 {
+  margin-bottom: 5px;
+}
+
+.blog-list-item p {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.blog-list-item .post-date {
+  font-size: 0.8em;
+  color: #999;
+  margin-top: 5px;
+  display: block;
+}
+
+/* 個別ブログ記事 */
+.blog-post h1 {
+  margin-bottom: 10px;
+}
+
+.blog-post .post-meta {
+  font-size: 0.9em;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.blog-post-content p {
+  margin-bottom: 1em;
+}
+
+.blog-post-content h2,
+.blog-post-content h3 {
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+}
+
+.blog-post-content pre {
+  background-color: #eee;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.blog-post-content code {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #e0e0e0;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+  margin-bottom: 1em;
+  padding-left: 20px;
+}
+
+.blog-post-content li {
+  margin-bottom: 0.5em;
+}
+
+/* カテゴリ・タグリストのスタイル (新規追加) */
+.meta-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+  display: flex; /* 横並びにする場合 */
+  flex-wrap: wrap; /* 折り返す場合 */
+  gap: 8px; /* アイテム間のスペース */
+}
+
+.meta-list li {
+  background-color: #e2f0e8; /* 淡いグリーン */
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 0.85em;
+}
+
+.meta-list li a {
+  color: #36a073; /* 濃いグリーン */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.meta-list li a:hover {
+  text-decoration: underline;
+}
+
+
+/* ページネーションスタイル (新規追加) */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+.pagination button {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #42b983;
+  color: white;
+  border-color: #42b983;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span.current-page {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #2c3e50;
+}
+
+
+/* 検索バーのスタイル (新規追加) */
+.search-bar {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.search-bar input[type="text"] {
+  width: 80%;
+  max-width: 400px;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.search-bar input[type="text"]:focus {
+  border-color: #42b983;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(66, 185, 131, 0.2);
+}
+
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  #app {
+    padding: 10px;
+  }
+
+  header nav a {
+    margin: 0 10px;
+    font-size: 0.9em;
+  }
+}
