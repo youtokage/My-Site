@@ -1,6 +1,6 @@
 ---
 slug: openintro-statistics-ch1-note
-title: OpenIntro統計学 第1章を3分でざっくり復習
+title: OpenIntro Statistics 第1章を3分でざっくり復習
 date: 2025-06-23
 excerpt: 観察研究と実験の違い、変数の型、代表的なサンプリング法──第1章のキモだけをやさしく整理しました。演習の回答も末尾にあります（ネタバレ注意）。
 categories: [Statistics, Study Notes]
