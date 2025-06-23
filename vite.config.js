@@ -14,8 +14,7 @@ export default defineConfig({
     }
   },
   // GitHub Pagesに対応するための設定
-  // リポジトリ名が 'my-portfolio-blog' の場合
-  base: process.env.NODE_ENV === 'production' ? '/my-site/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/My-Site/' : '/',
   
   // [Fix] ReferenceError: Buffer is not defined
   optimizeDeps: {
