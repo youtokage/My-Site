@@ -1,51 +1,52 @@
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { posts } from '../utils/postLoader';
-import { RouterLink } from 'vue-router';
+import { ref, computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { posts } from '../utils/postLoader'
+import { RouterLink } from 'vue-router'
 
-const route = useRoute();
-const router = useRouter();
-const categoryName = ref('');
-const currentPage = ref(1);
-const postsPerPage = 5;
+const route = useRoute()
+const categoryName = ref('')
+const currentPage = ref(1)
+const postsPerPage = 5
 
 // カテゴリ名に基づいて記事をフィルタリング
 const filteredPosts = computed(() => {
-  return posts.filter(post =>
-    post.categories.includes(categoryName.value)
-  );
-});
+  return posts.filter((post) => post.categories.includes(categoryName.value))
+})
 
 // ページネーションのための計算プロパティ
 const totalPages = computed(() => {
-  return Math.ceil(filteredPosts.value.length / postsPerPage);
-});
+  return Math.ceil(filteredPosts.value.length / postsPerPage)
+})
 
 const paginatedPosts = computed(() => {
-  const start = (currentPage.value - 1) * postsPerPage;
-  const end = start + postsPerPage;
-  return filteredPosts.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * postsPerPage
+  const end = start + postsPerPage
+  return filteredPosts.value.slice(start, end)
+})
 
 // ページ変更関数
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page;
+    currentPage.value = page
   }
-};
+}
 
 // ルートパラメータが変更されたらカテゴリ名を更新し、ページをリセット
-watch(() => route.params.categoryName, (newCategoryName) => {
-  categoryName.value = newCategoryName;
-  currentPage.value = 1;
-}, { immediate: true }); // 初期ロード時にも実行
+watch(
+  () => route.params.categoryName,
+  (newCategoryName) => {
+    categoryName.value = newCategoryName
+    currentPage.value = 1
+  },
+  { immediate: true },
+) // 初期ロード時にも実行
 </script>
 
 <template>
   <div class="category-posts">
     <h1>カテゴリ: {{ categoryName }}</h1>
-    <hr>
+    <hr />
 
     <div v-if="paginatedPosts.length > 0">
       <div v-for="post in paginatedPosts" :key="post.id" class="blog-list-item">
@@ -59,7 +60,11 @@ watch(() => route.params.categoryName, (newCategoryName) => {
         <ul class="meta-list" v-if="post.tags.length > 0">
           <li>
             <strong>タグ:</strong>
-            <RouterLink v-for="tag in post.tags" :key="tag" :to="{ name: 'tag-posts', params: { tagName: tag } }">
+            <RouterLink
+              v-for="tag in post.tags"
+              :key="tag"
+              :to="{ name: 'tag-posts', params: { tagName: tag } }"
+            >
               {{ tag }}
             </RouterLink>
           </li>
@@ -72,7 +77,9 @@ watch(() => route.params.categoryName, (newCategoryName) => {
     <div class="pagination" v-if="totalPages > 1">
       <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">前へ</button>
       <span class="current-page">{{ currentPage }} / {{ totalPages }}</span>
-      <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">次へ</button>
+      <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">
+        次へ
+      </button>
     </div>
   </div>
 </template>
@@ -91,7 +98,12 @@ watch(() => route.params.categoryName, (newCategoryName) => {
 .category-posts hr {
   border: 0;
   height: 1px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0)
+  );
   margin: 40px 0;
 }
 

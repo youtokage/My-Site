@@ -1,68 +1,58 @@
 <script setup>
-import { ref, computed } from 'vue';
-import { RouterLink } from 'vue-router';
-import { posts } from '../utils/postLoader';
-import {formatPrettyDate} from '../utils/formatDate'
+import { ref, computed } from 'vue'
+import { RouterLink } from 'vue-router'
+import { posts } from '../utils/postLoader'
+import { formatPrettyDate } from '../utils/formatDate'
 
-const searchQuery = ref(''); // 検索クエリ
-const currentPage = ref(1);  // 現在のページ
-const postsPerPage = 5;      // 1ページあたりの記事数
+const searchQuery = ref('') // 検索クエリ
+const currentPage = ref(1) // 現在のページ
+const postsPerPage = 5 // 1ページあたりの記事数
 
 // フィルタリングされた記事 (検索機能)
 const filteredPosts = computed(() => {
   if (!searchQuery.value) {
-    return posts;
+    return posts
   }
-  const query = searchQuery.value.toLowerCase();
-  return posts.filter(post =>
-    post.title.toLowerCase().includes(query) ||
-    post.excerpt.toLowerCase().includes(query) ||
-    post.content.toLowerCase().includes(query) // コンテンツも検索対象に
-  );
-});
+  const query = searchQuery.value.toLowerCase()
+  return posts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(query) ||
+      post.excerpt.toLowerCase().includes(query) ||
+      post.content.toLowerCase().includes(query), // コンテンツも検索対象に
+  )
+})
 
 // ページネーションのための計算プロパティ
 const totalPages = computed(() => {
-  return Math.ceil(filteredPosts.value.length / postsPerPage);
-});
+  return Math.ceil(filteredPosts.value.length / postsPerPage)
+})
 
 const paginatedPosts = computed(() => {
-  const start = (currentPage.value - 1) * postsPerPage;
-  const end = start + postsPerPage;
-  return filteredPosts.value.slice(start, end);
-});
+  const start = (currentPage.value - 1) * postsPerPage
+  const end = start + postsPerPage
+  return filteredPosts.value.slice(start, end)
+})
 
 // ページ変更関数
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page;
+    currentPage.value = page
   }
-};
-
-// 日付フォーマット
-const formatDate = (date) => {
-  return new Intl.DateTimeFormat('ja-JP', {
-    year:   'numeric',
-    month:  '2-digit',
-    day:    '2-digit',
-    timeZone: 'Asia/Tokyo',  // 必要なら明示
-  }).format(date)
 }
-
 </script>
 
 <template>
-  
   <div class="blog-list">
     <h1>ブログ</h1>
-    <hr>
+    <hr />
 
     <div class="search-bar">
       <input
         type="text"
         v-model="searchQuery"
         placeholder="記事を検索..."
-        @input="currentPage = 1" />
+        @input="currentPage = 1"
+      />
     </div>
 
     <div v-if="paginatedPosts.length > 0">
@@ -77,13 +67,21 @@ const formatDate = (date) => {
         <ul class="meta-list" v-if="post.categories.length > 0 || post.tags.length > 0">
           <li v-if="post.categories.length > 0">
             <strong>カテゴリ:</strong>
-            <RouterLink v-for="cat in post.categories" :key="cat" :to="{ name: 'category-posts', params: { categoryName: cat } }">
+            <RouterLink
+              v-for="cat in post.categories"
+              :key="cat"
+              :to="{ name: 'category-posts', params: { categoryName: cat } }"
+            >
               {{ cat }}
             </RouterLink>
           </li>
           <li v-if="post.tags.length > 0">
             <strong>タグ:</strong>
-            <RouterLink v-for="tag in post.tags" :key="tag" :to="{ name: 'tag-posts', params: { tagName: tag } }">
+            <RouterLink
+              v-for="tag in post.tags"
+              :key="tag"
+              :to="{ name: 'tag-posts', params: { tagName: tag } }"
+            >
               {{ tag }}
             </RouterLink>
           </li>
@@ -98,7 +96,9 @@ const formatDate = (date) => {
     <div class="pagination" v-if="totalPages > 1">
       <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">前へ</button>
       <span class="current-page">{{ currentPage }} / {{ totalPages }}</span>
-      <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">次へ</button>
+      <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">
+        次へ
+      </button>
     </div>
   </div>
 </template>
@@ -117,7 +117,12 @@ const formatDate = (date) => {
 .blog-list hr {
   border: 0;
   height: 1px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0)
+  );
   margin: 40px 0;
 }
 

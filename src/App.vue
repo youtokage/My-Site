@@ -1,31 +1,95 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { allCategories, allTags } from './utils/postLoader'
+import { ref } from 'vue'
+import lizardPng from '@/assets/lizard.png' // ★ 追加
+
+/* ----------------- 1) ランダム配置 ----------------- */
+const NUM_LIZARDS = 10
+const lizards = ref(
+  Array.from({ length: NUM_LIZARDS }, (_, i) => ({
+    id: i,
+    x: Math.random() * 100, // vw %
+    y: Math.random() * 100, // vh %
+    rot: Math.random() * 360, // deg
+  })),
+)
+const glowingIndex = ref(Math.floor(Math.random() * NUM_LIZARDS))
 </script>
 
 <template>
+  <!-- 🔆 背景トカゲ層 -->
+  <div class="lizard-field">
+    <div
+      v-for="(l, i) in lizards"
+      :key="l.id"
+      class="lizard"
+      :class="{ glow: i === glowingIndex }"
+      :style="{
+        left: l.x + '%',
+        top: l.y + '%',
+        transform: `translate(-50%,-50%) rotate(${l.rot}deg)`,
+        backgroundImage: `url(${lizardPng})`,
+      }"
+    />
+  </div>
+
+  <!-- 既存レイアウト -->
   <header>
-    <!-- 1️⃣ 中央寄せナビゲーション -->
     <nav class="primary-nav">
-      <RouterLink class="nav-link" to="/">プロフィール</RouterLink>
-      <RouterLink class="nav-link" to="/blog">ブログ</RouterLink>
+      <RouterLink class="nav-link" to="/">ブログ</RouterLink>
+      <RouterLink class="nav-link" to="/profile">プロフィール</RouterLink>
     </nav>
   </header>
+
   <main class="container">
     <RouterView />
   </main>
 </template>
 
 <style scoped>
+/* 0. 背景トカゲ共通 --------------------------------------------- */
+.lizard-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1; /* 最背面へ */
+  overflow: hidden;
+  pointer-events: none; /* クリック無効 */
+}
+
+.lizard {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  opacity: 0.8;
+  background: center/contain no-repeat;
+  transition:
+    opacity 0.3s,
+    filter 0.3s;
+}
+
+/* 1 匹だけ光らせる */
+@keyframes pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px #00ff9c) brightness(3);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px #00ff9c) brightness(7);
+  }
+}
+.lizard.glow {
+  opacity: 1;
+  animation: pulse 2s ease-in-out infinite;
+}
+
 /* ───────── 1. カラートークン ───────── */
 :root {
   /* バッジ背景 */
-  --badge-bg-cat:  #e7f3ff;  /* ライトブルー */
-  --badge-bg-tag:  #e6f9ee;  /* ライトグリーン */
+  --badge-bg-cat: #e7f3ff;
+  --badge-bg-tag: #e6f9ee;
 
   /* バッジ文字色 */
-  --badge-tx-cat:  #0d6efd;  /* ブルー */
-  --badge-tx-tag:  #198754;  /* グリーン */
+  --badge-tx-cat: #0d6efd;
+  --badge-tx-tag: #198754;
 
   /* メタラベル「カテゴリ:」「タグ:」 */
   --meta-label-color: #ffffff;
@@ -37,7 +101,7 @@ import { allCategories, allTags } from './utils/postLoader'
 
 /* ───────── 2. ヘッダー & ナビ ───────── */
 header {
-  position: sticky;          /* スクロールしても固定 */
+  position: sticky; /* スクロールしても固定 */
   top: 0;
   z-index: 10;
   display: flex;
@@ -47,7 +111,7 @@ header {
   padding: 1rem 0;
   background: var(--header-bg);
   color: var(--header-tx);
-  backdrop-filter: blur(6px); /* 背景ぼかしで読みやすさ↑ */
+  backdrop-filter: blur(6px); /* 背景ぼかし */
 }
 
 /* メインナビを中央寄せ */
@@ -62,13 +126,13 @@ header {
   font-weight: 600;
   position: relative;
   padding-bottom: 2px;
-  color: inherit;            /* ヘッダーと同色 */
+  color: inherit; /* ヘッダーと同色 */
   text-decoration: none;
 }
 
 /* 現在ページを下線で示す */
 .nav-link.router-link-exact-active::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   bottom: -2px;
@@ -114,7 +178,9 @@ header {
   border: 1px solid rgba(0, 0, 0, 0.05);
   background: var(--badge-bg-cat); /* デフォフォールバック */
   color: var(--badge-tx-cat);
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
   text-decoration: none;
 }
 
@@ -155,18 +221,20 @@ details summary {
   font-weight: 600;
 }
 details[open] summary::after {
-  content: "▲";
+  content: '▲';
   margin-left: 0.25rem;
   font-size: 0.75rem;
 }
 details summary::after {
-  content: "▼";
+  content: '▼';
   margin-left: 0.25rem;
   font-size: 0.75rem;
 }
 
 /* ───────── 6. レスポンシブ ───────── */
 @media (min-width: 1024px) {
-  .primary-nav { gap: 3rem; }
+  .primary-nav {
+    gap: 3rem;
+  }
 }
 </style>
